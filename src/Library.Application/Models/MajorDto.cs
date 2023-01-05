@@ -1,0 +1,16 @@
+﻿using Library.Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Library.Application.Models
+{
+    public class MajorDto
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public virtual List<StudentDto> Students { get; set; }
+    }
+}
