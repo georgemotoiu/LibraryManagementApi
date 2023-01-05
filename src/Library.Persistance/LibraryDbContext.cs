@@ -145,7 +145,7 @@ namespace Library.Persistance
                       PageCount = 820,
                       Publisher = "Packt Publishing",
                       AuthorId = markPriceGuid,
-                      TypeId = computerScienceMajorGuid,
+                      TypeId = computersTypeGuid,
                       Borrows = new List<Borrow>()
                   },
                   new Book
@@ -155,7 +155,7 @@ namespace Library.Persistance
                       PageCount = 528,
                       Publisher = "Manning",
                       AuthorId = johnSkeetGuid,
-                      TypeId = computerScienceMajorGuid,
+                      TypeId = computersTypeGuid,
                       Borrows = new List<Borrow>()
                   },
                   new Book
