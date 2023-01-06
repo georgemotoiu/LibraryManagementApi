@@ -10,6 +10,7 @@ namespace Library.Application.Profiles
         {
             CreateMap<Student, StudentDto>().ReverseMap();
             CreateMap<Major, MajorDto>().ReverseMap();
+            CreateMap<Borrow, BorrowDto>().ReverseMap();
         }        
     }
 }

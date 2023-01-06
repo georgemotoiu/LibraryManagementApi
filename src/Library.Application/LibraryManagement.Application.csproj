@@ -27,7 +27,6 @@
     <Folder Include="Features\Books\Queries\" />
     <Folder Include="Features\Majors\Commands\" />
     <Folder Include="Features\Majors\Queries\" />
-    <Folder Include="Features\Students\Commands\" />
     <Folder Include="Features\Students\Queries\GetStudent\" />
   </ItemGroup>
 

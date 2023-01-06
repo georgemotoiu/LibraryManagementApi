@@ -1,11 +1,7 @@
-﻿using Library.Application.Contracts.Repositories;
-using Library.Application.Features.Students.Queries.GetStudents;
-using Library.Application.Models;
-using Library.Domain.Entities;
+﻿using LibraryManagement.Application.Contracts.Services;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,20 +9,19 @@ namespace Library.Application.Features.Students.Queries.GetStudent
 {
     public class GetStudentQueryHandler : IRequestHandler<GetStudentQuery, GetStudentResponse>
     {
-        private readonly IBaseRepository<Student, StudentDto> _studentRepository;
+        private readonly IStudentsService _studentsService;
         private readonly ILogger<GetStudentQueryHandler> _logger;
 
-        public GetStudentQueryHandler(IBaseRepository<Student, StudentDto> studentRepository, ILogger<GetStudentQueryHandler> logger)
+        public GetStudentQueryHandler(IStudentsService studentsService, ILogger<GetStudentQueryHandler> logger)
         {
-            _studentRepository = studentRepository;
+            _studentsService = studentsService;
             _logger = logger;
         }
         public async Task<GetStudentResponse> Handle(GetStudentQuery request, CancellationToken cancellationToken)
         {
             try
-            {
-                var result = await _studentRepository.GetAsync(c => c.Id == request.Id, includeProperties: "Majors");
-                var student = result.FirstOrDefault();
+            {                
+                var student = await _studentsService.GetStudent(request.Id);
 
                 if (student == null)
                 {

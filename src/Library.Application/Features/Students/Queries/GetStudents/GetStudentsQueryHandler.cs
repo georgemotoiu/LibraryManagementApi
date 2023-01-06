@@ -1,6 +1,7 @@
 ﻿using Library.Application.Contracts.Repositories;
 using Library.Application.Models;
 using Library.Domain.Entities;
+using LibraryManagement.Application.Contracts.Services;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,12 +13,12 @@ namespace Library.Application.Features.Students.Queries.GetStudents
 {
     public class GetStudentsQueryHandler : IRequestHandler<GetStudentsQuery, GetStudentsResponse>
     {
-        private readonly IBaseRepository<Student, StudentDto> _studentRepository;
+        private readonly IStudentsService _studentsService;
         private readonly ILogger<GetStudentsQueryHandler> _logger;
 
-        public GetStudentsQueryHandler(IBaseRepository<Student, StudentDto> studentRepository, ILogger<GetStudentsQueryHandler> logger)
+        public GetStudentsQueryHandler(IStudentsService studentsService, ILogger<GetStudentsQueryHandler> logger)
         {
-            _studentRepository = studentRepository;
+            _studentsService = studentsService;
             _logger = logger;
         }
 
@@ -26,7 +27,7 @@ namespace Library.Application.Features.Students.Queries.GetStudents
             try
             {
                 _logger.LogInformation($"Retrieving all students.");
-                var students = await _studentRepository.GetAllAsync();
+                var students = await _studentsService.GetStudents();
                 var getAllStudentsResponse = new GetStudentsResponse
                 {
                     Students = students.ToList(),

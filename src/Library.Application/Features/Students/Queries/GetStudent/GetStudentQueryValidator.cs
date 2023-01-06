@@ -11,7 +11,7 @@ namespace Library.Application.Features.Students.Queries.GetStudent
     {
         public GetStudentQueryValidator()
         {
-            RuleFor(s => s.Id)
+            RuleFor(s => s.Id)                
                 .NotEmpty().WithMessage("{PropertyName} is required.")
                 .NotNull();
 

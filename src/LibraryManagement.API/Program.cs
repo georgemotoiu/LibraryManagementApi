@@ -1,5 +1,6 @@
 using Library.Application;
 using Library.Persistance;
+using LibraryManagement.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 
@@ -13,6 +14,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddApplicationServices();
+builder.Services.AddInfrastructureServices();
 builder.Services.AddPersistenceServices(builder.Configuration);
 
 // remove default logging providers
