@@ -37,8 +37,9 @@ namespace LibraryManagement.API.Controllers
         [HttpPost(Name = "AddStudent")]
         public async Task<ActionResult<AddStudentCommandResponse>> Create([FromBody] AddStudentCommand addStudentCommand)
         {
-            var response = await _mediator.Send(addStudentCommand);            
-            return CreatedAtRoute("GetStudentById", new { id = response.StudentId });
+            var response = await _mediator.Send(addStudentCommand);
+            addStudentCommand.Model.Id = response.StudentId;
+            return CreatedAtRoute("GetStudentById", new { id = response.StudentId }, addStudentCommand);
         }
     }
 }
