@@ -22,6 +22,7 @@ namespace LibraryManagement.API.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesDefaultResponseType]
         public async Task<ActionResult<IEnumerable<StudentDto>>> GetStudents()
         {
@@ -31,6 +32,7 @@ namespace LibraryManagement.API.Controllers
 
         [HttpGet("{id}", Name = "GetStudentById")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<StudentDto>> GetStudent(Guid id)
         {
@@ -41,6 +43,7 @@ namespace LibraryManagement.API.Controllers
         }
 
         [HttpPost(Name = "AddStudent")]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<AddStudentCommandResponse>> Create([FromBody] AddStudentCommand command)
         {
             var response = await _mediator.Send(command);            
@@ -50,6 +53,7 @@ namespace LibraryManagement.API.Controllers
         [HttpPut("{id}", Name = "UpdateStudent")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesDefaultResponseType]
         public async Task<ActionResult> Update([FromBody] UpdateStudentCommand command)
         {
