@@ -14,8 +14,6 @@ namespace Library.Application.Features.Students.Queries.GetStudent
             RuleFor(s => s.Id)                
                 .NotEmpty().WithMessage("{PropertyName} is required.")
                 .NotNull();
-
-
         }
     }
 }

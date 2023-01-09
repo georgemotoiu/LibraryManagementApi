@@ -2,6 +2,7 @@
 using Library.Application.Features.Students.Queries.GetStudents;
 using Library.Application.Models;
 using LibraryManagement.Application.Features.Students.Commands.AddStudent;
+using LibraryManagement.Application.Features.Students.Commands.DeleteStudent;
 using LibraryManagement.Application.Features.Students.Commands.UpdateStudent;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -54,6 +55,20 @@ namespace LibraryManagement.API.Controllers
         {
             var result = await _mediator.Send(command);
             return result.Success ? NoContent() : BadRequest(result.Message);
+        }
+
+        [HttpDelete("{id}", Name = "DeleteStudent")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> Delete(Guid id)
+        {
+            var command = new DeleteStudentCommand() { StudentId = id };
+            var result = await _mediator.Send(command);
+
+            return result.Success ? Ok() : BadRequest(result.Message);
         }
     }
 }

@@ -11,7 +11,9 @@ namespace LibraryManagement.Application.Features.Students.Commands.DeleteStudent
     {
         public DeleteStudentCommandValidator()
         {
-
+            RuleFor(s => s.StudentId)
+               .NotEmpty().WithMessage("{PropertyName} is required.")
+               .NotNull();
         }
     }
 }

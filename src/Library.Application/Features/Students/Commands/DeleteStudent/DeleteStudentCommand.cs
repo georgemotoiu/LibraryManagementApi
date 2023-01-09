@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Library.Application.Responses;
+using MediatR;
+using System;
 
 namespace LibraryManagement.Application.Features.Students.Commands.DeleteStudent
 {
-    public class DeleteStudentCommand
+    public class DeleteStudentCommand : IRequest<BaseResponse<string>>
     {
+        public Guid StudentId { get; set; } 
     }
 }
