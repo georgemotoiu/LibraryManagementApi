@@ -8,10 +8,16 @@ namespace LibraryManagement.Application.Contracts.Services
 {
     public interface IStudentsService
     {
-        Task<IEnumerable<StudentDto>> GetStudents();
+        Task<IEnumerable<StudentDto>> GetStudentsAsync();
 
-        Task<StudentDto> GetStudent(Guid studentId);
+        Task<StudentDto> GetStudentAsync(Guid studentId);
 
-        Task<Student> AddStudent(StudentDto student);
+        Task<Student> AddStudentAsync(StudentDto student);
+
+        Task<StudentDto> GetStudentIdWithNoTrackingAsync(Guid studentId);
+
+        Task UpdateStudentAsync(StudentDto student);
+
+        Task DeleteStudentAsync(StudentDto student);
     }
 }

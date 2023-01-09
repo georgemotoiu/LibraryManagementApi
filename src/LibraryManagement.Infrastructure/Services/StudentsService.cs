@@ -2,7 +2,6 @@
 using Library.Application.Models;
 using Library.Domain.Entities;
 using LibraryManagement.Application.Contracts.Services;
-using MediatR;
 
 namespace LibraryManagement.Infrastructure.Services
 {
@@ -22,24 +21,36 @@ namespace LibraryManagement.Infrastructure.Services
             _studentRepository = studentRepository;
         }
 
-        public async Task<Student> AddStudent(StudentDto model)
+        public async Task<Student> AddStudentAsync(StudentDto model)
         {
-            var student = await _studentRepository.AddAsync(model);
-            return student;
+            return await _studentRepository.AddAsync(model);            
         }
 
-        public async Task<StudentDto> GetStudent(Guid studentId)
+        public async Task<StudentDto> GetStudentAsync(Guid studentId)
         {
             var result = await _studentRepository.GetAsync(c => c.Id == studentId, includeProperties: "Borrows");
 
             return result.FirstOrDefault();
         }
 
-        public async Task<IEnumerable<StudentDto>> GetStudents()
+        public Task<StudentDto> GetStudentIdWithNoTrackingAsync(Guid studentId)
         {
-            var result = await _studentRepository.GetAllAsync();
+            return _studentRepository.GetByIdWithNoTrackingAsync(studentId);
+        }
 
-            return result;
+        public async Task<IEnumerable<StudentDto>> GetStudentsAsync()
+        {
+            return await _studentRepository.GetAllAsync();            
+        }
+
+        public async Task UpdateStudentAsync(StudentDto student)
+        {
+            await _studentRepository.UpdateAsync(student);
+        }
+
+        public async Task DeleteStudentAsync(StudentDto student)
+        {
+            await _studentRepository.DeleteAsync(student);
         }
     }
 }

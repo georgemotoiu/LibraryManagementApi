@@ -2,6 +2,7 @@
 using Library.Application.Features.Students.Queries.GetStudents;
 using Library.Application.Models;
 using LibraryManagement.Application.Features.Students.Commands.AddStudent;
+using LibraryManagement.Application.Features.Students.Commands.UpdateStudent;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,18 +29,31 @@ namespace LibraryManagement.API.Controllers
         }
 
         [HttpGet("{id}", Name = "GetStudentById")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<StudentDto>> GetStudent(Guid id)
         {
-            var getStudentQuery = new GetStudentQuery() { Id = id };
-            return Ok(await _mediator.Send(getStudentQuery));
+            var command = new GetStudentQuery() { Id = id };
+            var result = await _mediator.Send(command);
+
+            return result.Success? Ok(result) : NotFound(result);
         }
 
         [HttpPost(Name = "AddStudent")]
-        public async Task<ActionResult<AddStudentCommandResponse>> Create([FromBody] AddStudentCommand addStudentCommand)
+        public async Task<ActionResult<AddStudentCommandResponse>> Create([FromBody] AddStudentCommand command)
         {
-            var response = await _mediator.Send(addStudentCommand);
-            addStudentCommand.Model.Id = response.StudentId;
-            return CreatedAtRoute("GetStudentById", new { id = response.StudentId }, addStudentCommand);
+            var response = await _mediator.Send(command);            
+            return CreatedAtRoute("GetStudentById", new { id = response.Student.Id }, command);
+        }
+
+        [HttpPut("{id}", Name = "UpdateStudent")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> Update([FromBody] UpdateStudentCommand command)
+        {
+            var result = await _mediator.Send(command);
+            return result.Success ? NoContent() : BadRequest(result.Message);
         }
     }
 }

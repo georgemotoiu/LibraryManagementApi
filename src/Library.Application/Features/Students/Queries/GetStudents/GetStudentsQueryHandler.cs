@@ -27,7 +27,7 @@ namespace Library.Application.Features.Students.Queries.GetStudents
             try
             {
                 _logger.LogInformation($"Retrieving all students.");
-                var students = await _studentsService.GetStudents();
+                var students = await _studentsService.GetStudentsAsync();
                 var getAllStudentsResponse = new GetStudentsResponse
                 {
                     Students = students.ToList(),

@@ -9,6 +9,7 @@ namespace LibraryManagement.Infrastructure
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
         {
             services.AddTransient<IStudentsService, StudentsService>();
+            services.AddTransient<IBorrowsService, BorrowsService>();
 
             return services;
         }

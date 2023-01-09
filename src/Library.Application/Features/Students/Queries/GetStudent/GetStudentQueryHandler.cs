@@ -21,7 +21,7 @@ namespace Library.Application.Features.Students.Queries.GetStudent
         {
             try
             {                
-                var student = await _studentsService.GetStudent(request.Id);
+                var student = await _studentsService.GetStudentAsync(request.Id);
 
                 if (student == null)
                 {
