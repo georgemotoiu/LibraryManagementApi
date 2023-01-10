@@ -5,6 +5,7 @@ using LibraryManagement.Application.Features.Students.Commands.AddStudent;
 using LibraryManagement.Application.Features.Students.Commands.DeleteStudent;
 using LibraryManagement.Application.Features.Students.Commands.UpdateStudent;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagement.API.Controllers
@@ -29,7 +30,7 @@ namespace LibraryManagement.API.Controllers
             var dtos = await _mediator.Send(new GetStudentsQuery());
             return Ok(dtos);
         }
-
+        
         [HttpGet("{id}", Name = "GetStudentById")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -42,6 +43,7 @@ namespace LibraryManagement.API.Controllers
             return result.Success? Ok(result) : NotFound(result);
         }
 
+        [Authorize]
         [HttpPost(Name = "AddStudent")]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<AddStudentCommandResponse>> Create([FromBody] AddStudentCommand command)
@@ -50,6 +52,7 @@ namespace LibraryManagement.API.Controllers
             return CreatedAtRoute("GetStudentById", new { id = response.Student.Id }, command);
         }
 
+        [Authorize]
         [HttpPut("{id}", Name = "UpdateStudent")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -61,6 +64,7 @@ namespace LibraryManagement.API.Controllers
             return result.Success ? NoContent() : BadRequest(result.Message);
         }
 
+        [Authorize]
         [HttpDelete("{id}", Name = "DeleteStudent")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

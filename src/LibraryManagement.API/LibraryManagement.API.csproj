@@ -13,7 +13,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="Serilog" Version="2.11.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0" />
@@ -26,6 +26,7 @@
     <ProjectReference Include="..\Library.Application\LibraryManagement.Application.csproj" />
     <ProjectReference Include="..\Library.Domain\LibraryManagement.Domain.csproj" />
     <ProjectReference Include="..\Library.Persistance\LibraryManagement.Persistance.csproj" />
+    <ProjectReference Include="..\LibraryManagement.Identity\LibraryManagement.Identity.csproj" />
     <ProjectReference Include="..\LibraryManagement.Infrastructure\LibraryManagement.Infrastructure.csproj" />
   </ItemGroup>
 
