@@ -1,6 +1,7 @@
 ﻿using Library.Application.Contracts.Repositories;
 using Library.Application.Models;
 using Library.Domain.Entities;
+using LibraryManagement.Application.Contracts.Repositories;
 using LibraryManagement.Application.Contracts.Services;
 
 namespace LibraryManagement.Infrastructure.Services
@@ -9,16 +10,16 @@ namespace LibraryManagement.Infrastructure.Services
     {
         /// <summary>
         ///     The <see cref="IBaseRepository" /> to use.
-        /// </summary>
-        private readonly IBaseRepository<Student, StudentDto> _studentRepository;
+        /// </summary>        
+        private readonly IStudentRepository _studentRepository;
 
         /// <summary>
         ///     Initializes a new instance of <see cref="ContestsService" />.
         /// </summary>
         /// <param name="contestRepository"></param>
-        public StudentsService(IBaseRepository<Student, StudentDto> studentRepository)
+        public StudentsService(IStudentRepository studentRepository)
         {
-            _studentRepository = studentRepository;
+            _studentRepository = studentRepository;            
         }
 
         public async Task<Student> AddStudentAsync(StudentDto model)
@@ -41,6 +42,11 @@ namespace LibraryManagement.Infrastructure.Services
         public async Task<IEnumerable<StudentDto>> GetStudentsAsync()
         {
             return await _studentRepository.GetAllAsync();            
+        }
+
+        public async Task<IEnumerable<StudentDto>> GetStudentsBorrowers()
+        {
+            return await _studentRepository.GetStudentsThatBorrowedBooksAsync();
         }
 
         public async Task UpdateStudentAsync(StudentDto student)

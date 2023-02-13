@@ -1,11 +1,7 @@
-﻿using Library.Application.Contracts.Repositories;
-using Library.Application.Models;
-using Library.Domain.Entities;
-using LibraryManagement.Application.Contracts.Services;
+﻿using LibraryManagement.Application.Contracts.Services;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -30,7 +26,7 @@ namespace Library.Application.Features.Students.Queries.GetStudents
                 var students = await _studentsService.GetStudentsAsync();
                 var getAllStudentsResponse = new GetStudentsResponse
                 {
-                    Students = students.ToList(),
+                    Students = students,
                     Success = true
                 };
 

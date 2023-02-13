@@ -74,12 +74,13 @@ namespace Library.Persistance.Repositories
             return await query.ProjectTo<TModel>(_mapper.ConfigurationProvider).ToListAsync();
         }
 
+
         public async Task<TModel> GetByIdAsync(Guid id)
         {
             var entity = await _dbSet.FindAsync(id);
 
             return _mapper.Map<TModel>(entity);
-        }
+        }        
 
         public async Task<TModel> GetByIdWithNoTrackingAsync(Guid id)
         {

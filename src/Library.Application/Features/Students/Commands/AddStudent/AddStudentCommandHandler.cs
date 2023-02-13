@@ -30,6 +30,7 @@ namespace LibraryManagement.Application.Features.Students.Commands.AddStudent
                 _logger.LogInformation($"Added student {student.Id} with name {student.FirstName} {student.LastName}.");                
 
                 createStudentCommandResponse.Student = _mapper.Map<StudentDto>(student);
+                createStudentCommandResponse.Success = true;
             }
             catch (Exception e)
             {

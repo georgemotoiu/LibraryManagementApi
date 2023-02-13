@@ -110,6 +110,7 @@ namespace LibraryManagement.Identity.Identity
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
                 new Claim("uid", user.Id)
             }
             .Union(userClaims)
@@ -121,7 +122,7 @@ namespace LibraryManagement.Identity.Identity
             var jwtSecurityToken = new JwtSecurityToken(
                 issuer: _jwtSettings.Issuer,
                 audience: _jwtSettings.Audience,
-                claims: claims,
+                claims: claims,                
                 expires: DateTime.UtcNow.AddMinutes(_jwtSettings.DurationInMinutes),
                 signingCredentials: signingCredentials);
             return jwtSecurityToken;

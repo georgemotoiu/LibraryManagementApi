@@ -10,6 +10,8 @@ namespace LibraryManagement.Application.Contracts.Services
     {
         Task<IEnumerable<StudentDto>> GetStudentsAsync();
 
+        Task<IEnumerable<StudentDto>> GetStudentsBorrowers();
+
         Task<StudentDto> GetStudentAsync(Guid studentId);
 
         Task<Student> AddStudentAsync(StudentDto student);
