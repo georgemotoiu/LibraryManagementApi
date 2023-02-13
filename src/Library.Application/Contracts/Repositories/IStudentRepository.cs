@@ -13,6 +13,6 @@ namespace LibraryManagement.Application.Contracts.Repositories
     {
         Task<List<StudentDto>> GetStudentsThatBorrowedBooksAsync();
 
-        Task<List<StudentDto>> GetStudentsWithFirstNameAsync(string firstName);
+        Task<List<StudentDto>> UpdateStudentsByFirstNameAsync();
     }
 }

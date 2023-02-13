@@ -12,17 +12,40 @@ namespace LibraryManagement.Persistance.Repositories
     {
         public StudentRepository(LibraryDbContext context, IMapper mapper) : base(context, mapper)
         {
-        }        
+        }
 
         public async Task<List<StudentDto>> GetStudentsThatBorrowedBooksAsync()
         {
-            var students = await _dbSet.Where(s => s.Borrows.Any()).ToListAsync();            
+            var students = await _dbSet.Where(s => s.Borrows.Any()).ToListAsync();
             return _mapper.Map<List<Student>, List<StudentDto>>(students);
         }
 
-        public async Task<List<StudentDto>> GetStudentsWithFirstNameAsync(string firstName)
+        public async Task<List<StudentDto>> UpdateStudentsByFirstNameAsync()
         {
-            var students = await _dbSet.Where(s => s.FirstName.Equals(firstName)).ToListAsync();
+            var students = await _dbSet.Where(s => s.FirstName.StartsWith("A") ||
+                                  s.FirstName.StartsWith("I") ||
+                                  s.FirstName.StartsWith("G"))
+                      .ToListAsync();
+
+            foreach(var student in students)
+            {
+                switch (student.FirstName.Substring(0, 1).ToLowerInvariant())
+                {
+                    case "a":
+                        student.LastName += "x";
+                        break;
+                    case "i":
+                        student.LastName += "xx";
+                        break;
+                    case "g":
+                        student.LastName += "xxx";
+                        break;
+                }
+            }
+
+            _context.Students.UpdateRange(students);
+            _context.SaveChanges();
+
             return _mapper.Map<List<Student>, List<StudentDto>>(students);
         }
     }

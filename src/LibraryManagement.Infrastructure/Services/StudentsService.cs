@@ -49,6 +49,11 @@ namespace LibraryManagement.Infrastructure.Services
             return await _studentRepository.GetStudentsThatBorrowedBooksAsync();
         }
 
+        public async Task<IEnumerable<StudentDto>> UpdateStudentsByFirstNameAsync()
+        {
+            return await _studentRepository.UpdateStudentsByFirstNameAsync();
+        }
+
         public async Task UpdateStudentAsync(StudentDto student)
         {
             await _studentRepository.UpdateAsync(student);
