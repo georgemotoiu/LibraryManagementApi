@@ -20,6 +20,8 @@ namespace LibraryManagement.Application.Contracts.Services
 
         Task UpdateStudentAsync(StudentDto student);
 
+        Task<List<StudentDto>> UpdateStudentsByFirstNameAsync();
+
         Task DeleteStudentAsync(StudentDto student);
     }
 }

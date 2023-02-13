@@ -64,6 +64,17 @@ namespace LibraryManagement.API.Controllers
             return result.Success ? NoContent() : BadRequest(result.Message);
         }
 
+        //[Authorize]
+        [HttpPut(Name = "UpdateStudentsByFirstName")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> Update()
+        {
+            var result = await _mediator.Send(new UpdateStudentsByFirstNameCommand());
+            return result.Success ? Ok(result) : BadRequest(result.Message);
+        }
+
         [Authorize]
         [HttpDelete("{id}", Name = "DeleteStudent")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

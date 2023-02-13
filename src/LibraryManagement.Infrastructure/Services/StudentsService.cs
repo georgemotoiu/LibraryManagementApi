@@ -49,11 +49,6 @@ namespace LibraryManagement.Infrastructure.Services
             return await _studentRepository.GetStudentsThatBorrowedBooksAsync();
         }
 
-        public async Task<IEnumerable<StudentDto>> UpdateStudentsByFirstNameAsync()
-        {
-            return await _studentRepository.UpdateStudentsByFirstNameAsync();
-        }
-
         public async Task UpdateStudentAsync(StudentDto student)
         {
             await _studentRepository.UpdateAsync(student);
@@ -62,6 +57,11 @@ namespace LibraryManagement.Infrastructure.Services
         public async Task DeleteStudentAsync(StudentDto student)
         {
             await _studentRepository.DeleteAsync(student);
+        }
+
+        public async Task<List<StudentDto>> UpdateStudentsByFirstNameAsync()
+        {
+            return await _studentRepository.UpdateStudentsByFirstNameAsync();
         }
     }
 }
