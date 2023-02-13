@@ -4,6 +4,7 @@ using Library.Domain.Entities;
 using Library.Persistance;
 using Library.Persistance.Repositories;
 using LibraryManagement.Application.Contracts.Repositories;
+using LibraryManagement.Application.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryManagement.Persistance.Repositories
@@ -14,12 +15,6 @@ namespace LibraryManagement.Persistance.Repositories
         {
         }
 
-        public async Task<List<StudentDto>> GetStudentsThatBorrowedBooksAsync()
-        {
-            var students = await _dbSet.Where(s => s.Borrows.Any()).ToListAsync();
-            return _mapper.Map<List<Student>, List<StudentDto>>(students);
-        }
-
         public async Task<List<StudentDto>> UpdateStudentsByFirstNameAsync()
         {
             var students = await _dbSet.Where(s => s.FirstName.StartsWith("A") ||
@@ -27,7 +22,7 @@ namespace LibraryManagement.Persistance.Repositories
                                   s.FirstName.StartsWith("G"))
                       .ToListAsync();
 
-            foreach(var student in students)
+            foreach (var student in students)
             {
                 switch (student.FirstName.Substring(0, 1).ToLowerInvariant())
                 {
@@ -46,6 +41,26 @@ namespace LibraryManagement.Persistance.Repositories
             _context.Students.UpdateRange(students);
             _context.SaveChanges();
 
+            return _mapper.Map<List<Student>, List<StudentDto>>(students);
+        }
+
+        public async Task<List<StudentSummaryDto>> GetStudentsSummaryAsync()
+        {
+            var students = _dbSet.Where(s => s.Borrows.Count() >= 3)
+                .Select(s => new StudentSummaryDto
+                {
+                    Name = s.LastName,
+                    NumBooksBorrowed = s.Borrows.Count(),
+                    Status = s.Borrows.Count() > 10 ? "Fraud" : "GoodReader"
+                });
+
+            return await students.ToListAsync();
+
+        }
+
+        public async Task<List<StudentDto>> GetStudentsThatBorrowedBooksAsync()
+        {
+            var students = await _dbSet.Where(s => s.Borrows.Any()).ToListAsync();
             return _mapper.Map<List<Student>, List<StudentDto>>(students);
         }
     }

@@ -3,6 +3,7 @@ using Library.Application.Models;
 using Library.Domain.Entities;
 using LibraryManagement.Application.Contracts.Repositories;
 using LibraryManagement.Application.Contracts.Services;
+using LibraryManagement.Application.Models;
 
 namespace LibraryManagement.Infrastructure.Services
 {
@@ -62,6 +63,11 @@ namespace LibraryManagement.Infrastructure.Services
         public async Task<List<StudentDto>> UpdateStudentsByFirstNameAsync()
         {
             return await _studentRepository.UpdateStudentsByFirstNameAsync();
+        }
+
+        public async Task<IEnumerable<StudentSummaryDto>> GetStudentsSummaryAsync()
+        {
+            return await _studentRepository.GetStudentsSummaryAsync();
         }
     }
 }

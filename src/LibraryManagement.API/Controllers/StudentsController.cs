@@ -4,6 +4,7 @@ using Library.Application.Models;
 using LibraryManagement.Application.Features.Students.Commands.AddStudent;
 using LibraryManagement.Application.Features.Students.Commands.DeleteStudent;
 using LibraryManagement.Application.Features.Students.Commands.UpdateStudent;
+using LibraryManagement.Application.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +31,17 @@ namespace LibraryManagement.API.Controllers
             var dtos = await _mediator.Send(new GetStudentsQuery());
             return Ok(dtos);
         }
-        
+
+        [HttpGet("summary", Name = "GetStudentsSummary")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<IEnumerable<StudentSummaryDto>>> GetStudentsSummary()
+        {
+            var dtos = await _mediator.Send(new GetStudentsSummaryQuery());
+            return Ok(dtos);
+        }
+
         [HttpGet("{id}", Name = "GetStudentById")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

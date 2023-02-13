@@ -1,5 +1,6 @@
 ﻿using Library.Application.Models;
 using Library.Domain.Entities;
+using LibraryManagement.Application.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,6 +12,8 @@ namespace LibraryManagement.Application.Contracts.Services
         Task<IEnumerable<StudentDto>> GetStudentsAsync();
 
         Task<IEnumerable<StudentDto>> GetStudentsBorrowers();
+
+        Task<IEnumerable<StudentSummaryDto>> GetStudentsSummaryAsync();
 
         Task<StudentDto> GetStudentAsync(Guid studentId);
 
