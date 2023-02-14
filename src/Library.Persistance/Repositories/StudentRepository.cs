@@ -59,5 +59,14 @@ namespace LibraryManagement.Persistance.Repositories
             var students = await _dbSet.Where(s => s.Borrows.Any()).ToListAsync();
             return _mapper.Map<List<Student>, List<StudentDto>>(students);
         }
+
+        public async Task<List<StudentDto>> GetStudentsWithLeastBorrowedBooksAsync()
+        {
+            var students = await _dbSet.OrderBy(s => s.Borrows.Count)
+                                        .Take(5)
+                                        .ToListAsync();
+
+            return _mapper.Map<List<Student>, List<StudentDto>>(students);
+        }
     }
 }

@@ -11,6 +11,8 @@ namespace LibraryManagement.Application.Contracts.Repositories
     {
         Task<List<StudentDto>> GetStudentsThatBorrowedBooksAsync();
 
+        Task<List<StudentDto>> GetStudentsWithLeastBorrowedBooksAsync();
+
         Task<List<StudentDto>> UpdateStudentsByFirstNameAsync();
 
         Task<List<StudentSummaryDto>> GetStudentsSummaryAsync();

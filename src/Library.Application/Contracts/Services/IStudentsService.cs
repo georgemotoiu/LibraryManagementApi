@@ -26,5 +26,7 @@ namespace LibraryManagement.Application.Contracts.Services
         Task<List<StudentDto>> UpdateStudentsByFirstNameAsync();
 
         Task DeleteStudentAsync(StudentDto student);
+
+        Task<IEnumerable<StudentDto>> GetStudentsWithLeastBorrowedBooksAsync();
     }
 }

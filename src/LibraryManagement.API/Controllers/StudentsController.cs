@@ -4,6 +4,7 @@ using Library.Application.Models;
 using LibraryManagement.Application.Features.Students.Commands.AddStudent;
 using LibraryManagement.Application.Features.Students.Commands.DeleteStudent;
 using LibraryManagement.Application.Features.Students.Commands.UpdateStudent;
+using LibraryManagement.Application.Features.Students.Queries.GetStudentsWithLeastBooks;
 using LibraryManagement.Application.Models;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -39,6 +40,16 @@ namespace LibraryManagement.API.Controllers
         public async Task<ActionResult<IEnumerable<StudentSummaryDto>>> GetStudentsSummary()
         {
             var dtos = await _mediator.Send(new GetStudentsSummaryQuery());
+            return Ok(dtos);
+        }
+
+        [HttpGet("least", Name = "GetStudentsWithLeastBooks")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<IEnumerable<StudentDto>>> GetStudentsWithLeastBooks()
+        {
+            var dtos = await _mediator.Send(new GetStudentsWithLeastBooksQuery());
             return Ok(dtos);
         }
 

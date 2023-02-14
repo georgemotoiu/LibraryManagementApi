@@ -69,5 +69,10 @@ namespace LibraryManagement.Infrastructure.Services
         {
             return await _studentRepository.GetStudentsSummaryAsync();
         }
+
+        public async Task<IEnumerable<StudentDto>> GetStudentsWithLeastBorrowedBooksAsync()
+        {
+            return await _studentRepository.GetStudentsWithLeastBorrowedBooksAsync();
+        }
     }
 }
