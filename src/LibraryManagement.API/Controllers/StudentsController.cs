@@ -1,6 +1,7 @@
 ﻿using Library.Application.Features.Students.Queries.GetStudent;
 using Library.Application.Features.Students.Queries.GetStudents;
 using Library.Application.Models;
+using LibraryManagement.Application.Features.Borrows.Commands.MoveBorrowedBooks;
 using LibraryManagement.Application.Features.Students.Commands.AddStudent;
 using LibraryManagement.Application.Features.Students.Commands.DeleteStudent;
 using LibraryManagement.Application.Features.Students.Commands.UpdateStudent;
@@ -95,6 +96,18 @@ namespace LibraryManagement.API.Controllers
         {
             var result = await _mediator.Send(new UpdateStudentsByFirstNameCommand());
             return result.Success ? Ok(result) : BadRequest(result.Message);
+        }
+
+        [HttpPut("transfer", Name = "MoveBorrowedBooks")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> MoveBorrowedBooks([FromBody] MoveBorrowedBooksCommand command)
+        {
+            var result = await _mediator.Send(command);
+            return result.Success ? NoContent() : BadRequest(result.Message);
         }
 
         [Authorize]
