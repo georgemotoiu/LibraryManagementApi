@@ -18,6 +18,7 @@ namespace Library.Persistance
 
             services.AddScoped(typeof(IBaseRepository<,>), typeof(BaseRepository<,>));
             services.AddScoped(typeof(IStudentRepository), typeof(StudentRepository));
+            services.AddScoped(typeof(IAuthorRepository), typeof(AuthorRepository));
 
             return services;
         }

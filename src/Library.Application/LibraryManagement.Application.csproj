@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <Folder Include="Features\Authors\Commands\" />
-    <Folder Include="Features\Authors\Queries\" />
     <Folder Include="Features\Books\Commands\" />
     <Folder Include="Features\Books\Queries\" />
     <Folder Include="Features\Majors\Commands\" />

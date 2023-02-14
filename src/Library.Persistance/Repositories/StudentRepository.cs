@@ -11,6 +11,13 @@ namespace LibraryManagement.Persistance.Repositories
 {
     public class StudentRepository : BaseRepository<Student, StudentDto>, IStudentRepository
     {
+        private readonly Dictionary<char, string> _suffixes = new()
+        {
+            { 'A', "x" },
+            { 'I', "xx" },            
+            { 'G', "xxx" }
+        };
+
         public StudentRepository(LibraryDbContext context, IMapper mapper) : base(context, mapper)
         {
         }
@@ -24,21 +31,10 @@ namespace LibraryManagement.Persistance.Repositories
 
             foreach (var student in students)
             {
-                switch (student.FirstName.Substring(0, 1).ToLowerInvariant())
-                {
-                    case "a":
-                        student.LastName += "x";
-                        break;
-                    case "i":
-                        student.LastName += "xx";
-                        break;
-                    case "g":
-                        student.LastName += "xxx";
-                        break;
-                }
+                student.LastName += _suffixes[student.FirstName[0]];
             }
 
-            _context.Students.UpdateRange(students);
+            _context.Students.UpdateRange(students);            
             _context.SaveChanges();
 
             return _mapper.Map<List<Student>, List<StudentDto>>(students);
