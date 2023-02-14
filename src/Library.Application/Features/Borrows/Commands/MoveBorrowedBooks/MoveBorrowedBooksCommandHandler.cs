@@ -18,9 +18,10 @@ namespace LibraryManagement.Application.Features.Borrows.Commands.MoveBorrowedBo
         private readonly IBaseRepository<Student, StudentDto> _studentsRepository;
         private readonly IBorowsRepository _borrowsRepository;
 
-        public MoveBorrowedBooksCommandHandler(IBaseRepository<Student, StudentDto> studentsRepository, ILogger<MoveBorrowedBooksCommandHandler> logger)
+        public MoveBorrowedBooksCommandHandler(IBaseRepository<Student, StudentDto> studentsRepository, IBorowsRepository borrowsRepository, ILogger<MoveBorrowedBooksCommandHandler> logger)
         {
             _studentsRepository = studentsRepository;
+            _borrowsRepository = borrowsRepository;
             _logger = logger;
         }
 
@@ -45,7 +46,7 @@ namespace LibraryManagement.Application.Features.Borrows.Commands.MoveBorrowedBo
 
                 var borrowedBooks = await _borrowsRepository.GetBorrowedBooksFromStudent(request.FromStudentId);
 
-                if (borrowedBooks.Any())
+                if (!borrowedBooks.Any())
                 {
                     response.Success = false;
                     response.Message = $"The student with id {request.FromStudentId} has no borrowed books to move.";
