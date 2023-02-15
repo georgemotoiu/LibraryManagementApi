@@ -6,6 +6,7 @@ using Library.Persistance.Repositories;
 using LibraryManagement.Application.Contracts.Repositories;
 using LibraryManagement.Application.Models;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace LibraryManagement.Persistance.Repositories
 {
@@ -14,7 +15,7 @@ namespace LibraryManagement.Persistance.Repositories
         private readonly Dictionary<char, string> _suffixes = new()
         {
             { 'A', "x" },
-            { 'I', "xx" },            
+            { 'I', "xx" },
             { 'G', "xxx" }
         };
 
@@ -34,7 +35,7 @@ namespace LibraryManagement.Persistance.Repositories
                 student.LastName += _suffixes[student.FirstName[0]];
             }
 
-            _context.Students.UpdateRange(students);            
+            _context.Students.UpdateRange(students);
             _context.SaveChanges();
 
             return _mapper.Map<List<Student>, List<StudentDto>>(students);
@@ -42,15 +43,17 @@ namespace LibraryManagement.Persistance.Repositories
 
         public async Task<List<StudentSummaryDto>> GetStudentsSummaryAsync()
         {
-            var students = _dbSet.Where(s => s.Borrows.Count() >= 3)
-                .Select(s => new StudentSummaryDto
-                {
-                    Name = s.LastName,
-                    NumBooksBorrowed = s.Borrows.Count(),
-                    Status = s.Borrows.Count() > 10 ? "Fraud" : "GoodReader"
-                });
+            var students = await _context.Students
+                    .Join(_context.Borrows, s => s.Id, b => b.StudentId, (s, b) => s)
+                    .GroupBy(s => new { s.Id, s.FirstName })
+                    .Where(sb => sb.Count() >= 3)
+                    .Select(g => new StudentSummaryDto {
+                        Name = sb.Key.FirstName,
+                        NumBooksBorrowed = g.Count(),
+                        Status = g.Count() > 10 ? "Fraud" : "GoodReader"
+                    }).ToListAsync();
 
-            return await students.ToListAsync();
+            return students;
 
         }
 
@@ -77,7 +80,7 @@ namespace LibraryManagement.Persistance.Repositories
                 if (student.Borrows.Count > 7)
                 {
                     var borrowsToRemove = student.Borrows.OrderBy(b => b.TakenDate).Take(student.Borrows.Count - 7).ToList();
-                    _context.Borrows.RemoveRange(borrowsToRemove);                    
+                    _context.Borrows.RemoveRange(borrowsToRemove);
                 }
             }
             await _context.SaveChangesAsync();
