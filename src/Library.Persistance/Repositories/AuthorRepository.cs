@@ -21,15 +21,12 @@ namespace LibraryManagement.Persistance.Repositories
 
         public async Task<List<AuthorDto>> GetMostBorrowedAuthorsAsync()
         {
-            var topAuthors = await _context.Authors
-                .OrderByDescending(a =>
-                    _context.Books
-                        .Where(b => b.AuthorId == a.Id)
-                        .SelectMany(b => b.Borrows)
-                        .Count()
-        )
-        .Take(3)
-        .ToListAsync();
+
+            var topAuthors = await _context.Authors.OrderByDescending(a => _context.Borrows
+                    .Where(b => a.Books.Any(book => book.Id == b.BookId))
+                    .Count())
+                    .Take(3)
+                    .ToListAsync();        
 
             return _mapper.Map<List<Author>, List<AuthorDto>>(topAuthors);
 

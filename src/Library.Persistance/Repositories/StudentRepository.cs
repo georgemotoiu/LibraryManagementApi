@@ -68,5 +68,19 @@ namespace LibraryManagement.Persistance.Repositories
 
             return _mapper.Map<List<Student>, List<StudentDto>>(students);
         }
+
+        public async Task EnforceBookBorrowingLimitAsync()
+        {
+            var students = await _dbSet.Include(s => s.Borrows).ToListAsync();
+            foreach (var student in students)
+            {
+                if (student.Borrows.Count > 7)
+                {
+                    var borrowsToRemove = student.Borrows.OrderBy(b => b.TakenDate).Take(student.Borrows.Count - 7).ToList();
+                    _context.Borrows.RemoveRange(borrowsToRemove);                    
+                }
+            }
+            await _context.SaveChangesAsync();
+        }
     }
 }
