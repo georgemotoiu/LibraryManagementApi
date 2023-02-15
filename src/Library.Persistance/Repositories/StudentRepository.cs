@@ -43,17 +43,16 @@ namespace LibraryManagement.Persistance.Repositories
 
         public async Task<List<StudentSummaryDto>> GetStudentsSummaryAsync()
         {
-            var students = await _context.Students
+            return await _context.Students
                     .Join(_context.Borrows, s => s.Id, b => b.StudentId, (s, b) => s)
                     .GroupBy(s => new { s.Id, s.FirstName })
                     .Where(sb => sb.Count() >= 3)
-                    .Select(g => new StudentSummaryDto {
-                        Name = sb.Key.FirstName,
+                    .Select(g => new StudentSummaryDto
+                    {
+                        Name = g.Key.FirstName,
                         NumBooksBorrowed = g.Count(),
                         Status = g.Count() > 10 ? "Fraud" : "GoodReader"
                     }).ToListAsync();
-
-            return students;
 
         }
 
